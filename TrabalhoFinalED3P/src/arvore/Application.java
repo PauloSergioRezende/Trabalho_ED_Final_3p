@@ -140,7 +140,6 @@ public class Application implements ActionListener, ListSelectionListener {
 		panel_Inserir.add(lblNewLabel, gbc_lblNewLabel);
 
 		tftNome = new JTextField();
-		tftNome.setText("aaa");
 		GridBagConstraints gbc_tftNome = new GridBagConstraints();
 		gbc_tftNome.fill = GridBagConstraints.HORIZONTAL;
 		gbc_tftNome.insets = new Insets(0, 0, 5, 0);
@@ -158,7 +157,6 @@ public class Application implements ActionListener, ListSelectionListener {
 		panel_Inserir.add(lblNewLabel2, gbc_lblNewLabel2);
 
 		tftCPF = new JTextField();
-		tftCPF.setText("11111111111");
 		GridBagConstraints gbc_tftCPF = new GridBagConstraints();
 		gbc_tftCPF.fill = GridBagConstraints.HORIZONTAL;
 		gbc_tftCPF.insets = new Insets(0, 0, 5, 0);
@@ -193,7 +191,6 @@ public class Application implements ActionListener, ListSelectionListener {
 		panel_Inserir.add(lblNewLabel4, gbc_lblNewLabel4);
 
 		tftTell = new JTextField();
-		tftTell.setText("11111111111");
 		GridBagConstraints gbc_tftTell = new GridBagConstraints();
 		gbc_tftTell.fill = GridBagConstraints.HORIZONTAL;
 		gbc_tftTell.insets = new Insets(0, 0, 5, 0);
@@ -211,7 +208,6 @@ public class Application implements ActionListener, ListSelectionListener {
 		panel_Inserir.add(lblNewLabel5, gbc_lblNewLabel5);
 
 		tftEmail = new JTextField();
-		tftEmail.setText("a");
 		GridBagConstraints gbc_tftEmail = new GridBagConstraints();
 		gbc_tftEmail.fill = GridBagConstraints.HORIZONTAL;
 		gbc_tftEmail.insets = new Insets(0, 0, 5, 0);

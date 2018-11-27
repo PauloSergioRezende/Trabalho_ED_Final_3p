@@ -381,7 +381,7 @@ public class Application implements ActionListener, ListSelectionListener {
 		tglbtnNome.setSelected(true);
 		tglbtnTelefone.setSelected(true);
 		
-		alterar = buscarMaisProximo(procuraItem());
+		alterar = buscarPesquisaAproximado(procuraItem());
 		
 		tglbtnAp.setSelected(a);
 		tglbtnCPF.setSelected(b);
@@ -426,7 +426,7 @@ public class Application implements ActionListener, ListSelectionListener {
 					"", JOptionPane.YES_NO_CANCEL_OPTION);
 			if (aux == JOptionPane.YES_OPTION) {
 				if (Validacoes.validaTodos(tftNome.getText(), tftCPF.getText(), tftAp.getText(), tftTell.getText())) {
-					excluir(alterar);
+					remover(alterar);
 					inserir();
 				}
 				return;
@@ -473,7 +473,7 @@ public class Application implements ActionListener, ListSelectionListener {
 			JOptionPane.showMessageDialog(null, "Item não encontrado", "", JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
-		ItemArvoreBin result = buscarMaisProximo(resultado);
+		ItemArvoreBin result = buscarPesquisaAproximado(resultado);
 
 		tftAp.setText(String.valueOf(result.getAp()));
 		tftCPF.setText(String.valueOf(result.getCpf()));
@@ -481,10 +481,10 @@ public class Application implements ActionListener, ListSelectionListener {
 		tftNome.setText(result.getNome());
 		tftTell.setText(String.valueOf(result.getTelefone()));
 
-		mostrar(resultado);
+		exibir(resultado);
 	}
 
-	private ItemArvoreBin buscarMaisProximo(ItemArvoreBin[] result) {
+	private ItemArvoreBin buscarPesquisaAproximado(ItemArvoreBin[] result) {
 		ItemArvoreBin resposta = null;
 		for (ItemArvoreBin aux : result) {
 			if (aux != null) {
@@ -571,10 +571,10 @@ public class Application implements ActionListener, ListSelectionListener {
 
 	private void exibir() {
 		ItemArvoreBin[] aux = arvore.CamPreFixado();
-		mostrar(aux);
+		exibir(aux);
 	}
 
-	private void mostrar(ItemArvoreBin[] aux) {
+	private void exibir(ItemArvoreBin[] aux) {
 		Object[][] data = new String[aux.length][5];
 		String[] colunas = { "AP", "Nome", "CPF", "Telefone", "Email" };
 
@@ -599,11 +599,11 @@ public class Application implements ActionListener, ListSelectionListener {
 	}
 
 	private void remover() {
-		ItemArvoreBin Item = buscarMaisProximo(procuraItem());
-		excluir(Item);
+		ItemArvoreBin Item = buscarPesquisaAproximado(procuraItem());
+		remover(Item);
 	}
 
-	private void excluir(ItemArvoreBin item) {
+	private void remover(ItemArvoreBin item) {
 		if (item == null) {
 			JOptionPane.showMessageDialog(null, "item não encontrado", "Erro!", JOptionPane.INFORMATION_MESSAGE);
 		} else {

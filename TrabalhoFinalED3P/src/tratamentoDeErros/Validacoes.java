@@ -33,21 +33,21 @@ public class Validacoes {
 				JOptionPane.showMessageDialog(null,"AP Invalido","Erro!",JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
-			// Valida numero do prédio
-			if(Integer.valueOf(String.valueOf(ap.charAt(0)))>6) {
-				JOptionPane.showMessageDialog(null,"Numero do Prédio Invalido","Erro!",JOptionPane.ERROR_MESSAGE);
-				return false;
-			}
-			// Valida andar do prédio
-			if(Integer.valueOf(ap.substring(1,2))>15) {
-				JOptionPane.showMessageDialog(null,"Numero do Andar Invalido","Erro!",JOptionPane.ERROR_MESSAGE);
-				return false;
-			}
-			// Valida numero no corredor do prédio
-			if(Integer.valueOf(String.valueOf(ap.charAt(3)))>5) {
-				JOptionPane.showMessageDialog(null,"Numero no Corredor Invalido","Erro!",JOptionPane.ERROR_MESSAGE);
-				return false;
-			}
+//			// Valida numero do prédio
+//			if(Integer.valueOf(String.valueOf(ap.charAt(0)))>6) {
+//				JOptionPane.showMessageDialog(null,"Numero do Prédio Invalido","Erro!",JOptionPane.ERROR_MESSAGE);
+//				return false;
+//			}
+//			// Valida andar do prédio
+//			if(Integer.valueOf(ap.substring(1,2))>15) {
+//				JOptionPane.showMessageDialog(null,"Numero do Andar Invalido","Erro!",JOptionPane.ERROR_MESSAGE);
+//				return false;
+//			}
+//			// Valida numero no corredor do prédio
+//			if(Integer.valueOf(String.valueOf(ap.charAt(3)))>5) {
+//				JOptionPane.showMessageDialog(null,"Numero no Corredor Invalido","Erro!",JOptionPane.ERROR_MESSAGE);
+//				return false;
+//			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,"AP Invalido","Erro!",JOptionPane.ERROR_MESSAGE);
 			return false;

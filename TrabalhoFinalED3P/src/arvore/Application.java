@@ -476,7 +476,7 @@ public class Application implements ActionListener, ListSelectionListener {
 			return;
 		}
 		ItemArvoreBin result = buscarPesquisaAproximado(resultado);
-
+		
 		tftAp.setText(String.valueOf(result.getAp()));
 		tftCPF.setText(String.valueOf(result.getCpf()));
 		tftEmail.setText(result.getEmail());
@@ -488,6 +488,9 @@ public class Application implements ActionListener, ListSelectionListener {
 
 	private ItemArvoreBin buscarPesquisaAproximado(ItemArvoreBin[] result) {
 		ItemArvoreBin resposta = null;
+		if(result == null) {
+			return resposta;
+		}
 		for (ItemArvoreBin aux : result) {
 			if (aux != null) {
 				if (tglbtnAp.isSelected()) {
@@ -562,7 +565,15 @@ public class Application implements ActionListener, ListSelectionListener {
 			telefone = 0L;
 		}
 
-		nome = tftNome.getText();
+		if (tglbtnNome.isSelected()) {
+			if (Validacoes.validaNome(tftNome.getText())) {
+				nome = tftNome.getText();
+			} else {
+				return null;
+			}
+		} else {
+			nome = "";
+		}
 		email = tftEmail.getText();
 
 		ItemArvoreBin[] result = arvore.procurar(tglbtnAp.isSelected(), tglbtnNome.isSelected(),
@@ -602,7 +613,11 @@ public class Application implements ActionListener, ListSelectionListener {
 
 	private void remover() {
 		ItemArvoreBin Item = buscarPesquisaAproximado(procuraItem());
-		remover(Item);
+		if (Item == null) {
+			JOptionPane.showMessageDialog(null, "item não encontrado", "Erro!", JOptionPane.INFORMATION_MESSAGE);
+		} else {
+			remover(Item);
+		}
 	}
 
 	private void remover(ItemArvoreBin item) {
@@ -704,7 +719,7 @@ public class Application implements ActionListener, ListSelectionListener {
 	private void teste() {
 		List<ItemArvoreBin> aux = LeitorArquivo
 				.leArquivo("C:\\Users\\paulo\\eclipse-workspace\\TrabalhoFinalED3P\\src\\arquivo\\CondominioData.txt");
-		for(ItemArvoreBin i:aux) {
+		for (ItemArvoreBin i : aux) {
 			arvore.inserir(i);
 		}
 	}

@@ -182,12 +182,12 @@ public class ArvoreBinaria {
 	private ItemArvoreBin[] FazCamPreFixado(NoArvoreBin arv, ItemArvoreBin[] vet, int[] n, boolean cpf, Long value) {
 		if (arv != null) {
 			if (cpf) {
-				if (arv.getInfo().getCpf() == value) {
+				if (arv.getInfo().getCpf().longValue() == value) {
 					vet[n[0]] = arv.getInfo();
 					n[0]++;
 				}
 			} else {
-				if (arv.getInfo().getTelefone() == value) {
+				if (arv.getInfo().getTelefone().longValue() == value) {
 					vet[n[0]] = arv.getInfo();
 					n[0]++;
 				}
@@ -202,12 +202,12 @@ public class ArvoreBinaria {
 	private ItemArvoreBin[] FazCamPreFixado(NoArvoreBin arv, ItemArvoreBin[] vet, int[] n, boolean nome, String linha) {
 		if (arv != null) {
 			if (nome) {
-				if (arv.getInfo().getNome().toLowerCase().contains(linha.toLowerCase())) {
+				if (arv.getInfo().getNome().toLowerCase().equals(linha.toLowerCase())) {
 					vet[n[0]] = arv.getInfo();
 					n[0]++;
 				}
 			} else {
-				if (arv.getInfo().getEmail().toLowerCase().contains(linha.toLowerCase())) {
+				if (arv.getInfo().getEmail().toLowerCase().equals(linha.toLowerCase())) {
 					vet[n[0]] = arv.getInfo();
 					n[0]++;
 				}

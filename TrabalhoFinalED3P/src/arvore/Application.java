@@ -15,6 +15,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicBorders.ToggleButtonBorder;
 
 import dados.ItemArvoreBin;
+import lerArquivo.LeitorArquivo;
 import tratamentoDeErros.Validacoes;
 
 import java.awt.GridBagLayout;
@@ -28,6 +29,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.SwingConstants;
@@ -108,8 +110,8 @@ public class Application implements ActionListener, ListSelectionListener {
 	 * @param btnNewButton
 	 */
 	private void initialize() {
-		
-		//parte grafica e inicialização de variaveis
+
+		// parte grafica e inicialização de variaveis
 		frame = new JFrame();
 		frame.setBounds(100, 100, 660, 780);
 		frame.setLocationRelativeTo(null);
@@ -315,12 +317,12 @@ public class Application implements ActionListener, ListSelectionListener {
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(12, 301, 618, 419);
 		mainPanel.add(scrollPane);
-
+		teste();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//Identifica Botões apertados
+		// Identifica Botões apertados
 		if (e.getSource() == btnPrimeiro) {
 			linhaSel = 0;
 			table.requestFocus();
@@ -367,28 +369,28 @@ public class Application implements ActionListener, ListSelectionListener {
 	}
 
 	private void slctAlterar() {
-		//Seleciona item para ser editado
-		boolean a,b,c,d,e;
+		// Seleciona item para ser editado
+		boolean a, b, c, d, e;
 		a = tglbtnAp.isSelected();
-		b= tglbtnCPF.isSelected();
-		c =tglbtnEmail.isSelected();
+		b = tglbtnCPF.isSelected();
+		c = tglbtnEmail.isSelected();
 		d = tglbtnNome.isSelected();
 		e = tglbtnTelefone.isSelected();
-		
+
 		tglbtnAp.setSelected(true);
 		tglbtnCPF.setSelected(true);
 		tglbtnEmail.setSelected(true);
 		tglbtnNome.setSelected(true);
 		tglbtnTelefone.setSelected(true);
-		
+
 		alterar = buscarPesquisaAproximado(procuraItem());
-		
+
 		tglbtnAp.setSelected(a);
 		tglbtnCPF.setSelected(b);
 		tglbtnEmail.setSelected(c);
 		tglbtnNome.setSelected(d);
 		tglbtnTelefone.setSelected(e);
-		
+
 		if (alterar == null) {
 			JOptionPane.showMessageDialog(null, "Item para Alteração não encontrado", "", JOptionPane.ERROR_MESSAGE);
 			return;
@@ -404,13 +406,13 @@ public class Application implements ActionListener, ListSelectionListener {
 	}
 
 	private void alterar() {
-		//efetivamente altera o item selecionado pelo metodo slctAlterar();
+		// efetivamente altera o item selecionado pelo metodo slctAlterar();
 		if (alterar == null) {
 			JOptionPane.showMessageDialog(null, "Não exite item para alteração selecionado", "",
 					JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
-		
+
 		if (!tglbtnAp.isSelected() && !tglbtnCPF.isSelected() && !tglbtnEmail.isSelected() && !tglbtnNome.isSelected()
 				&& !tglbtnTelefone.isSelected()) {
 			tglbtnCPF.setSelected(true);
@@ -696,6 +698,14 @@ public class Application implements ActionListener, ListSelectionListener {
 			btnAnterior.setEnabled(true);
 			btnProximo.setEnabled(true);
 			btnUltimo.setEnabled(true);
+		}
+	}
+
+	private void teste() {
+		List<ItemArvoreBin> aux = LeitorArquivo
+				.leArquivo("C:\\Users\\paulo\\eclipse-workspace\\TrabalhoFinalED3P\\src\\arquivo\\CondominioData.txt");
+		for(ItemArvoreBin i:aux) {
+			arvore.inserir(i);
 		}
 	}
 }

@@ -83,6 +83,7 @@ public class Application implements ActionListener, ListSelectionListener {
 	private ItemArvoreBin alterar;
 	private JButton btnDefinirSindico;
 	private JButton btnProcurarSindico;
+	private JButton button;
 
 	/**
 	 * Launch the application.
@@ -292,7 +293,12 @@ public class Application implements ActionListener, ListSelectionListener {
 		tglbtnEmail = new JToggleButton("Email");
 		tglbtnEmail.setBounds(0, 89, 78, 25);
 		panel_2.add(tglbtnEmail);
-//		tglbtnEmail.addActionListener(this);
+		// tglbtnEmail.addActionListener(this);
+
+		button = new JButton("!!!");
+		button.setBounds(137, 131, 30, 25);
+		panel_2.add(button);
+		button.addActionListener(this);
 
 		panel_3 = new JPanel();
 		panel_3.setBorder(new TitledBorder(""));
@@ -315,7 +321,7 @@ public class Application implements ActionListener, ListSelectionListener {
 		panel_3.add(btnProximo);
 		btnProximo.addActionListener(this);
 
-		btnUltimo = new JButton(">>");
+		btnUltimo = new JButton(">|");
 		btnUltimo.setBounds(195, 7, 51, 25);
 		panel_3.add(btnUltimo);
 		btnUltimo.addActionListener(this);
@@ -387,6 +393,11 @@ public class Application implements ActionListener, ListSelectionListener {
 		}
 		if (e.getSource() == btnProcurarSindico) {
 			procurarSindico();
+		}
+		if (e.getSource() == button) {
+			JOptionPane.showMessageDialog(null,
+					"\tComponentes do Grupo: \nAngelo Eduardo Uliana Stein \nLucas Barbosa Nascimento \nPaulo Sérgio Rezende de Lima",
+					"", JOptionPane.INFORMATION_MESSAGE);
 		}
 
 	}

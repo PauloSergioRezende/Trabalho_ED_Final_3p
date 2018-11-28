@@ -38,6 +38,7 @@ import java.awt.Graphics;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.print.DocFlavor.STRING;
 import javax.swing.JButton;
 import javax.swing.JToggleButton;
 
@@ -80,6 +81,8 @@ public class Application implements ActionListener, ListSelectionListener {
 	private JButton btnUltimo;
 	private JButton btnAlterar;
 	private ItemArvoreBin alterar;
+	private JButton btnDefinirSindico;
+	private JButton btnProcurarSindico;
 
 	/**
 	 * Launch the application.
@@ -295,23 +298,37 @@ public class Application implements ActionListener, ListSelectionListener {
 		panel_3.setBorder(new TitledBorder(""));
 		panel_3.setBounds(12, 189, 278, 73);
 		panel_opcoes.add(panel_3);
-		panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panel_3.setLayout(null);
 
 		btnPrimeiro = new JButton("|<");
+		btnPrimeiro.setBounds(31, 7, 47, 25);
 		panel_3.add(btnPrimeiro);
 		btnPrimeiro.addActionListener(this);
 
 		btnAnterior = new JButton("<<");
+		btnAnterior.setBounds(83, 7, 51, 25);
 		panel_3.add(btnAnterior);
 		btnAnterior.addActionListener(this);
 
 		btnProximo = new JButton(">>");
+		btnProximo.setBounds(139, 7, 51, 25);
 		panel_3.add(btnProximo);
 		btnProximo.addActionListener(this);
 
 		btnUltimo = new JButton(">>");
+		btnUltimo.setBounds(195, 7, 51, 25);
 		panel_3.add(btnUltimo);
 		btnUltimo.addActionListener(this);
+
+		btnDefinirSindico = new JButton("definir sindico");
+		btnDefinirSindico.setBounds(20, 37, 115, 25);
+		panel_3.add(btnDefinirSindico);
+		btnDefinirSindico.addActionListener(this);
+
+		btnProcurarSindico = new JButton("procurar sindico");
+		btnProcurarSindico.setBounds(141, 39, 130, 25);
+		panel_3.add(btnProcurarSindico);
+		btnProcurarSindico.addActionListener(this);
 
 		table = new JTable();
 		scrollPane = new JScrollPane();
@@ -352,11 +369,11 @@ public class Application implements ActionListener, ListSelectionListener {
 		}
 		if (e.getSource() == btnInserir) {
 			inserir();
-			exibir();
+//			exibir();
 		}
 		if (e.getSource() == btnRemover) {
 			remover();
-			exibir();
+//			exibir();
 		}
 		if (e.getSource() == btnSlctAterar) {
 			slctAlterar();
@@ -365,11 +382,16 @@ public class Application implements ActionListener, ListSelectionListener {
 			alterar();
 			exibir();
 		}
+		if (e.getSource() == btnDefinirSindico) {
+			definirSindico();
+		}
+		if (e.getSource() == btnProcurarSindico) {
+			procurarSindico();
+		}
 
 	}
 
-	private void slctAlterar() {
-		// Seleciona item para ser editado
+	private ItemArvoreBin pesquisaTodosParametros() {
 		boolean a, b, c, d, e;
 		a = tglbtnAp.isSelected();
 		b = tglbtnCPF.isSelected();
@@ -383,13 +405,66 @@ public class Application implements ActionListener, ListSelectionListener {
 		tglbtnNome.setSelected(true);
 		tglbtnTelefone.setSelected(true);
 
-		alterar = buscarPesquisaAproximado(procuraItem());
+		ItemArvoreBin definir = buscarPesquisaAproximado(procuraItem());
 
 		tglbtnAp.setSelected(a);
 		tglbtnCPF.setSelected(b);
 		tglbtnEmail.setSelected(c);
 		tglbtnNome.setSelected(d);
 		tglbtnTelefone.setSelected(e);
+		return definir;
+	}
+
+	private void procurarSindico() {
+		ItemArvoreBin morador = pesquisaTodosParametros();
+
+		if (morador == null) {
+			JOptionPane.showMessageDialog(null,
+					"Predio para pesquisa de sindico nã encontrado. \nPor Favor Insira um AP valido para pesquisa do sindico.",
+					"", JOptionPane.INFORMATION_MESSAGE);
+			return;
+		} else {
+			NoArvoreBin aux = arvore.procuraSindico(String.valueOf(morador.getAp()).charAt(0), arvore.getRaiz());
+			if (aux == null) {
+				JOptionPane.showMessageDialog(null, "Sindico não encontrado", "", JOptionPane.ERROR_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"O sindico nesse predio é: \nNome: " + aux.getInfo().getNome() + "\nCPF: "
+								+ aux.getInfo().getCpf() + "\nAP: " + aux.getInfo().getAp() + "\nTelefone: "
+								+ aux.getInfo().getTelefone() + "\nEmail: " + aux.getInfo().getEmail(),
+						"Erro!", JOptionPane.INFORMATION_MESSAGE);
+			}
+		}
+
+	}
+
+	private void definirSindico() {
+
+		ItemArvoreBin definir = pesquisaTodosParametros();
+
+		if (definir == null) {
+			JOptionPane.showMessageDialog(null, "Escolha para sindico não encontrado", "", JOptionPane.ERROR_MESSAGE);
+			return;
+		} else {
+			NoArvoreBin aux = arvore.procuraSindico(String.valueOf(definir.getAp()).charAt(0), arvore.getRaiz());
+			if (aux != null) {
+				JOptionPane.showMessageDialog(null,
+						"Já Existe um sindico nesse predio: \nNome: " + aux.getInfo().getNome() + "\nCPF: "
+								+ aux.getInfo().getCpf() + "\nAP: " + aux.getInfo().getAp() + "\nTelefone: "
+								+ aux.getInfo().getTelefone() + "\nEmail: " + aux.getInfo().getEmail(),
+						"Erro!", JOptionPane.ERROR_MESSAGE);
+			} else {
+				definir.setSindico(true);
+				JOptionPane.showMessageDialog(null, "Sindico definido com sucesso", "",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		}
+
+	}
+
+	private void slctAlterar() {
+
+		alterar = pesquisaTodosParametros();
 
 		if (alterar == null) {
 			JOptionPane.showMessageDialog(null, "Item para Alteração não encontrado", "", JOptionPane.ERROR_MESSAGE);
@@ -476,7 +551,7 @@ public class Application implements ActionListener, ListSelectionListener {
 			return;
 		}
 		ItemArvoreBin result = buscarPesquisaAproximado(resultado);
-		
+
 		tftAp.setText(String.valueOf(result.getAp()));
 		tftCPF.setText(String.valueOf(result.getCpf()));
 		tftEmail.setText(result.getEmail());
@@ -488,7 +563,7 @@ public class Application implements ActionListener, ListSelectionListener {
 
 	private ItemArvoreBin buscarPesquisaAproximado(ItemArvoreBin[] result) {
 		ItemArvoreBin resposta = null;
-		if(result == null) {
+		if (result == null) {
 			return resposta;
 		}
 		for (ItemArvoreBin aux : result) {
@@ -675,6 +750,7 @@ public class Application implements ActionListener, ListSelectionListener {
 		ItemArvoreBin novo = new ItemArvoreBin(nome, Long.valueOf(cpf), Integer.valueOf(ap), Long.valueOf(telefone),
 				email);
 		arvore.inserir(novo);
+		JOptionPane.showMessageDialog(null, "Item inserido com sucesso", "", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	@Override

@@ -115,41 +115,7 @@ public class ArvoreBinaria {
 		}
 		return maior;
 	}
-	
-	public ItemArvoreBin[] procurar(boolean ap, boolean nome, boolean email, boolean cpf, boolean telefone,
-			int dataAp, String dataNome, String dataEmail, Long dataCpf, Long dataTelefone) {
-		Set <ItemArvoreBin> conjunto = new HashSet <ItemArvoreBin>();
-		int[] n = new int[1];
-		if(ap) {
-			n[0] = 0;
-			ItemArvoreBin[] vet = new ItemArvoreBin[this.quantNos];
-			Collections.addAll(conjunto, FazCamPreFixado(this.raiz, vet, n, dataAp));
-		}
-		if(nome) {
-			n[0]=0;
-			ItemArvoreBin[] vet = new ItemArvoreBin[this.quantNos];
-			Collections.addAll(conjunto, FazCamPreFixado(this.raiz, vet, n, true, dataNome));
-		}
-		if(email) {
-			n[0]=0;
-			ItemArvoreBin[] vet = new ItemArvoreBin[this.quantNos];
-			Collections.addAll(conjunto, FazCamPreFixado(this.raiz, vet, n, false, dataEmail));
-		}
-		if(cpf) {
-			n[0]=0;
-			ItemArvoreBin[] vet = new ItemArvoreBin[this.quantNos];
-			Collections.addAll(conjunto, FazCamPreFixado(this.raiz, vet, n, true, dataCpf));
-		}
-		if(telefone) {
-			n[0]=0;
-			ItemArvoreBin[] vet = new ItemArvoreBin[this.quantNos];
-			Collections.addAll(conjunto, FazCamPreFixado(this.raiz, vet, n, false, dataTelefone));
-		}
-		conjunto.remove(null);
-		ItemArvoreBin[] result = conjunto.toArray(new ItemArvoreBin[conjunto.size()]);
-		return result;
-	}
-	
+
 	public ItemArvoreBin[] CamPreFixado() {
 		int[] n = new int[1];
 		n[0] = 0;
@@ -167,14 +133,81 @@ public class ArvoreBinaria {
 		return vet;
 	}
 
-	private ItemArvoreBin[] FazCamPreFixado(NoArvoreBin arv, ItemArvoreBin[] vet, int[] n, int ap) {
-		if (arv != null) {
-			if (arv.getInfo().getAp() == ap) {
-				vet[n[0]] = arv.getInfo();
-				n[0]++;
+	public NoArvoreBin procuraSindico(char ap, NoArvoreBin no) {
+		if (no != null) {
+			if (String.valueOf(no.getInfo().getAp()).charAt(0) == ap) {
+				if (no.getInfo().isSindico()) {
+					return no;
+				}
 			}
-			vet = FazCamPreFixado(arv.getEsq(), vet, n, ap);
-			vet = FazCamPreFixado(arv.getDir(), vet, n, ap);
+
+			NoArvoreBin aux = procuraSindico(ap, no.getEsq());
+			if (aux != null) {
+				return aux;
+			}
+			aux = procuraSindico(ap, no.getDir());
+			if (aux != null) {
+				return aux;
+			}
+		}
+		return null;
+	}
+
+	public ItemArvoreBin[] procurar(boolean ap, boolean nome, boolean email, boolean cpf, boolean telefone, int dataAp,
+			String dataNome, String dataEmail, Long dataCpf, Long dataTelefone) {
+		Set<ItemArvoreBin> conjunto = new HashSet<ItemArvoreBin>();
+		int[] n = new int[1];
+		if (ap) {
+			n[0] = 0;
+			ItemArvoreBin[] vet = new ItemArvoreBin[this.quantNos];
+			Collections.addAll(conjunto, FazCamPreFixado(this.raiz, vet, n, true, dataAp));
+		}
+		if (nome) {
+			n[0] = 0;
+			ItemArvoreBin[] vet = new ItemArvoreBin[this.quantNos];
+			Collections.addAll(conjunto, FazCamPreFixado(this.raiz, vet, n, true, dataNome));
+		}
+		if (email) {
+			n[0] = 0;
+			ItemArvoreBin[] vet = new ItemArvoreBin[this.quantNos];
+			Collections.addAll(conjunto, FazCamPreFixado(this.raiz, vet, n, false, dataEmail));
+		}
+		if (cpf) {
+			n[0] = 0;
+			ItemArvoreBin[] vet = new ItemArvoreBin[this.quantNos];
+			Collections.addAll(conjunto, FazCamPreFixado(this.raiz, vet, n, true, dataCpf));
+		}
+		if (telefone) {
+			n[0] = 0;
+			ItemArvoreBin[] vet = new ItemArvoreBin[this.quantNos];
+			Collections.addAll(conjunto, FazCamPreFixado(this.raiz, vet, n, false, dataTelefone));
+		}
+		conjunto.remove(null);
+		if(conjunto.size() == 0) {
+			return null;
+		}
+		ItemArvoreBin[] result = conjunto.toArray(new ItemArvoreBin[conjunto.size()]);
+		return result;
+	}
+
+	private ItemArvoreBin[] FazCamPreFixado(NoArvoreBin arv, ItemArvoreBin[] vet, int[] n, boolean ap, int num) {
+		if (arv != null) {
+			if (ap) {
+				if (arv.getInfo().getAp() == num) {
+					vet[n[0]] = arv.getInfo();
+					n[0]++;
+				}
+			} else {
+				if (String.valueOf(arv.getInfo().getAp()).charAt(0) == num) {
+					if (arv.getInfo().isSindico()) {
+						vet[n[0]] = arv.getInfo();
+						n[0]++;
+					}
+				}
+
+			}
+			vet = FazCamPreFixado(arv.getEsq(), vet, n, ap, num);
+			vet = FazCamPreFixado(arv.getDir(), vet, n, ap, num);
 		}
 		return vet;
 	}
@@ -193,8 +226,8 @@ public class ArvoreBinaria {
 				}
 			}
 
-			vet = FazCamPreFixado(arv.getEsq(), vet, n,cpf, value);
-			vet = FazCamPreFixado(arv.getDir(), vet, n,cpf, value);
+			vet = FazCamPreFixado(arv.getEsq(), vet, n, cpf, value);
+			vet = FazCamPreFixado(arv.getDir(), vet, n, cpf, value);
 		}
 		return vet;
 	}
@@ -213,8 +246,8 @@ public class ArvoreBinaria {
 				}
 			}
 
-			vet = FazCamPreFixado(arv.getEsq(), vet, n,nome,linha);
-			vet = FazCamPreFixado(arv.getDir(), vet, n,nome,linha);
+			vet = FazCamPreFixado(arv.getEsq(), vet, n, nome, linha);
+			vet = FazCamPreFixado(arv.getDir(), vet, n, nome, linha);
 		}
 		return vet;
 	}
